@@ -1,11 +1,32 @@
-const { Router } = require('express')
-const { show,get,create,destroy,update } = require('../controllers/categoryController');
-const router = Router();
+let express = require('express');
+let router = express.Router();
+let multer = require('multer');
+let path = require('path');
+let category_path = path.join(__filename, '../../assets/images/category');
 
-router.get('/category',get);
-router.post('/category',create);
-router.get('/category/:id',show);
-router.put('/category/:id',update);
-router.delete('/category/:id',destroy);
+let storage = multer.diskStorage({
+    destination: category_path,
+    filename: function(req, file, cb) {
+        const extension = '.' + file.mimetype.slice(file.mimetype.indexOf('/') + 1, (file.mimetype.length));
+        cb(null, Date.now() + extension);
+    }
+})
+var upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (!file.mimetype.match(/png|jpg|jpeg$/)) {
+            cb(new Error('file must be png , jpg or jpeg'))
+        } else {
+            cb(undefined, true);
+        }
+    }
+});
 
+let CategoryController = require('../controllers/CategoryController');
+
+router.get('/', CategoryController.getAllCategory)
+router.post('/', upload.single('pic'), CategoryController.createCategory)
+router.get('/:id', CategoryController.getCategory)
+router.delete('/:id', CategoryController.deleteCategory)
+router.put('/:id', CategoryController.editCategory)
 module.exports = router;
