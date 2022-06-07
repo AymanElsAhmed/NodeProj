@@ -3,7 +3,6 @@ let express = require('express');
 let app = express();
 let product = require('./routes/product')
 let category = require('./routes/category')
-
 let user = require('./routes/user')
 let cart = require('./routes/cart')
 let order = require('./routes/order')

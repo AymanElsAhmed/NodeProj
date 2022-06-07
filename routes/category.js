@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let multer = require('multer');
+let CategoryController = require('../controllers/CategoryController');
 let path = require('path');
 let category_path = path.join(__filename, '../../assets/images/category');
 
@@ -22,7 +23,7 @@ var upload = multer({
     }
 });
 
-let CategoryController = require('../controllers/CategoryController');
+
 
 router.get('/', CategoryController.getAllCategory)
 router.post('/', upload.single('pic'), CategoryController.createCategory)
