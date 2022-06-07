@@ -29,6 +29,55 @@ let editUser = async(req, res) => {
     res.send(await User.findByIdAndUpdate(req.params.id, req.body));
 }
 
+//logout user
+let logoutUser = async(req, res) => {
+    res.send(await User.findByIdAndUpdate(req.params.id, {
+        $set: {
+            token: null
+        }
+    }));
+}
+
+// login user
+let loginUser = async(req, res) => {
+    try {
+        let user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            res.send("User not found", 400);
+        }
+        let isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (!isMatch) {
+            res.send("Password is incorrect", 400);
+        }
+        res.send(await User.findByIdAndUpdate(user._id, {
+            $set: {
+                token: req.body.token
+            }
+        }));
+    } catch (error) {
+        res.send(error, 400);
+    }
+}
+
+//get user by id
+let getUserById = async(req, res) => {
+    res.send(await User.findById(req.params.id));
+}
+
+//get user by token
+let getUserByToken = async(req, res) => {
+    res.send(await User.findOne({ token: req.params.token }));
+}
+
+//get user by email
+let getUserByEmail = async(req, res) => {
+        res.send(await User.findOne({ email: req.params.email }));
+    }
+    //get user by name
+let getUserByName = async(req, res) => {
+    res.send(await User.findOne({ name: req.params.name }));
+}
+
 module.exports = {
     getAllUser,
     createUser,

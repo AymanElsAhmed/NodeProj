@@ -2,6 +2,8 @@ let mongoose = require('mongoose');
 let express = require('express');
 let app = express();
 let user = require('./routes/user')
+let cart = require('./routes/cart')
+let order = require('./routes/order')
 let bcrypt = require('bcryptjs');
 let jwt = require('jsonwebtoken');
 const User = require('./models/user');
@@ -26,5 +28,6 @@ app.post('/login', async(req, res) => {
 
 
 app.use('/user', user);
-
+app.use('/cart', cart);
+app.use('/order', order);
 app.listen(7000)
