@@ -38,7 +38,7 @@ let logoutUser = async(req, res) => {
     }));
 }
 
-// login user
+
 let loginUser = async(req, res) => {
     try {
         let user = await User.findOne({ email: req.body.email });
@@ -64,23 +64,23 @@ let getUserById = async(req, res) => {
     res.send(await User.findById(req.params.id));
 }
 
-//get user by token
-let getUserByToken = async(req, res) => {
-    res.send(await User.findOne({ token: req.params.token }));
-}
+
 
 //get user by email
-let getUserByEmail = async(req, res) => {
-        res.send(await User.findOne({ email: req.params.email }));
-    }
-    //get user by name
-let getUserByName = async(req, res) => {
-    res.send(await User.findOne({ name: req.params.name }));
-}
+// let getUserByEmail = async(req, res) => {
+//         res.send(await User.findOne({ email: req.params.email }));
+// }
+//get user by name
+// let getUserByName = async(req, res) => {
+//     res.send(await User.findOne({ name: req.params.name }));
+// }
 
 module.exports = {
     getAllUser,
     createUser,
     deleteUser,
-    editUser
+    editUser,
+    logoutUser,
+    loginUser,
+    getUserById
 }

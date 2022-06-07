@@ -1,23 +1,32 @@
 let Product = require('../models/product');
 
-// checking in req
+
 let getAllProduct = async(req, res) => {
     res.send(await Product.find());
 }
-let searchProduct = async(req, res) => {
 
-    const { name, description, gte_price, lte_price } = req.query;
-    res.send(await Product
-        .find({
-            description: new RegExp(description, 'i'),
-            name: new RegExp(name, 'id'),
-            price: {
-                $gte: gte_price,
-                $lte: lte_price
-            }
-        })
-        .populate('category_id'));
+let filterProduct = async(req, res) => {
+    let price = req.query.price;
+    let products = await Product.find({
+        price: {
+            $gte: price
+        }
+    });
+    res.send(products);
 }
+
+let searchProductByName = async(req, res) => {
+    let name = req.query.name;
+    let products = await Product.find({
+        name: {
+            $regex: name,
+            $options: 'i'
+        }
+    });
+    res.send(products);
+}
+
+
 const getProduct = async(req, res) => {
     const { id } = req.params;
     try {
@@ -47,5 +56,6 @@ module.exports = {
     createProduct,
     deleteProduct,
     editProduct,
-    searchProduct
+    filterProduct,
+    searchProductByName
 }

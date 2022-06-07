@@ -1,6 +1,6 @@
 let Cart = require('../models/Cart');
 
-// delete specific product from cart
+
 let deleteProduct = async(req, res) => {
     try {
         const cart = await Cart.findByIdAndUpdate(req.params.id, {
@@ -16,12 +16,12 @@ let deleteProduct = async(req, res) => {
     }
 };
 
-//update product quantity in cart
+
 let updateProductQuantity = async(req, res) => {
     try {
         const cart = await Cart.findByIdAndUpdate(req.params.id, {
             $set: {
-                "products.$[elem].quantity": req.body.quantity //elem is the array of products
+                "products.$[elem].quantity": req.body.quantity
             }
         }, {
             arrayFilters: [{
@@ -33,10 +33,6 @@ let updateProductQuantity = async(req, res) => {
         res.status(500).json(err);
     }
 };
-
-//Checkout  User Card 
-
-
 
 
 let createCart = async(req, res) => {

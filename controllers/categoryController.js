@@ -7,6 +7,8 @@ let schema = Joi.object({
 })
 
 
+
+
 //not working i think
 let getAllCategory = async(req, res) => {
     const {} = req.query;
